@@ -1,6 +1,13 @@
-task :default => %w(build:html build:res)
+task :default => %w(
+  build:clean
+  build:html
+  build:res
+)
 
 namespace :build do
+  task :clean do
+    rm_rf 'html/*'
+  end
   task :html do
     sh "ruby builder/build.rb"
   end

@@ -3,5 +3,6 @@
   - pairs.each do |pair|
     pre.input
       code = pair[0]
-    pre.output = pair[1]
+    - unless pair[1].empty?
+      pre.output = pair[1]
 

@@ -13,7 +13,7 @@ class Builder
       exec: 'python "%s"'
     },
     'Perl' => {
-      ext: '.pl',
+      ext: '.{pl,pm}',
       exec: 'perl "%s"'
     },
     'PHP' => {
@@ -70,12 +70,17 @@ class Builder
   def generate(dir_path)
     codes = {}
     EXT.each do |name, opt|
-      ary = codes[name] = []
+      ary = []
       Dir[File.join dir_path, '*' + opt.fetch(:ext)].each do |file|
         src = File.read(file)
         out = `#{opt.fetch(:exec) % file}`
+        if $? != 0
+          puts out
+          exit $?
+        end
         ary << [src, out]
       end
+      codes[name] = ary unless ary.empty?
     end
     dir_name = dir_path.sub(src_dir, '')
     dist_path = File.join(html_dir, dir_name + '.html')
@@ -93,9 +98,11 @@ class Builder
 
   def build
     pages = []
-    Dir.glob(File.join src_dir, '*') do |dir_path|
-      generate dir_path
-      pages << dir_path.sub(src_dir + '/', '')
+    FileUtils.cd src_dir do
+      Dir.glob(File.join src_dir, '*') do |dir_path|
+        generate dir_path
+        pages << dir_path.sub(src_dir + '/', '')
+      end
     end
     render_index File.join(html_dir, 'index.html'), Index.new(pages)
   end
