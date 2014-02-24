@@ -1,5 +1,5 @@
-language: ruby
-rvm:
-  - 2.0.0
+install:
+  - bash install_env.sh
+  - bundle install
 script: rake
 
