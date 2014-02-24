@@ -22,6 +22,7 @@ class Builder
     }
   }
   Value = Struct.new(:codes)
+  Index = Struct.new(:pages)
 
   def initialize(dir)
     @root = dir
@@ -51,6 +52,12 @@ class Builder
     )
   end
 
+  def index_engine
+    @_index_engine ||= Slim::Template.new(
+      File.join(@root, 'builder', 'templates', 'index.html.slim')
+    )
+  end
+
   def render(dst_path, value)
     File.open dst_path, 'w' do |f|
       output = layout_engine.render do
@@ -75,10 +82,22 @@ class Builder
     render dist_path, Value.new(codes)
   end
 
+  def render_index(dst_path, value)
+    File.open dst_path, 'w' do |f|
+      output = layout_engine.render do
+        index_engine.render value
+      end
+      f.write output
+    end
+  end
+
   def build
+    pages = []
     Dir.glob(File.join src_dir, '*') do |dir_path|
       generate dir_path
+      pages << dir_path.sub(src_dir + '/', '')
     end
+    render_index File.join(html_dir, 'index.html'), Index.new(pages)
   end
 end
 
