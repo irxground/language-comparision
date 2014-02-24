@@ -7,6 +7,10 @@ class Builder
     'Ruby' => {
       ext:  '.rb',
       exec: 'ruby "%s"'
+    },
+    'Python' => {
+      ext: '.py',
+      exec: 'python "%s"'
     }
   }
   Value = Struct.new(:codes)
