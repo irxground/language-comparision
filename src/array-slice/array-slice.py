@@ -1,2 +1,3 @@
 array = [1, 2, 3, 4, 5]
 print array[2:4]
+print array

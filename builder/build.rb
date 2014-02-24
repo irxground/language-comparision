@@ -11,6 +11,14 @@ class Builder
     'Python' => {
       ext: '.py',
       exec: 'python "%s"'
+    },
+    'Perl' => {
+      ext: '.pl',
+      exec: 'perl "%s"'
+    },
+    'PHP' => {
+      ext: '.php',
+      exec: 'php "%s"'
     }
   }
   Value = Struct.new(:codes)
