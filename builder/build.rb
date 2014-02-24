@@ -31,17 +31,24 @@ class Builder
     end
   end
 
-  def template_path
-    @_template_path ||= File.join(@root, 'builder', 'templates', 'page.html.slim')
+  def layout_engine
+    @_layout_engine ||= Slim::Template.new(
+      File.join(@root, 'builder', 'templates', 'layout.html.slim')
+    )
   end
 
-  def template
-    @_template ||= Slim::Template.new template_path
+  def page_engine
+    @_page_engine ||= Slim::Template.new(
+      File.join(@root, 'builder', 'templates', 'page.html.slim')
+    )
   end
 
   def render(dst_path, value)
     File.open dst_path, 'w' do |f|
-      f.write template.render value
+      output = layout_engine.render do
+        page_engine.render value
+      end
+      f.write output
     end
   end
 

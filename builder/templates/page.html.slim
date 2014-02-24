@@ -1,13 +1,7 @@
-doctype html
-head
-  link rel="stylesheet" href="style.css"
-body
-  #main
-    h1 Language Comparision
-    - codes.each do |name, pairs|
-      h2 = name
-      - pairs.each do |pair|
-        pre.input
-          code = pair[0]
-        pre.output = pair[1]
+- codes.each do |name, pairs|
+  h2 = name
+  - pairs.each do |pair|
+    pre.input
+      code = pair[0]
+    pre.output = pair[1]
 
