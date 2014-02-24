@@ -32,7 +32,7 @@ class Builder
   end
 
   def template_path
-    @_template_path ||= File.join(@root, 'tools', 'templates', 'page.html.slim')
+    @_template_path ||= File.join(@root, 'builder', 'templates', 'page.html.slim')
   end
 
   def template
