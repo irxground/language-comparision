@@ -4,8 +4,15 @@ require 'bundler/setup'
 require 'slim'
 
 class Builder
-  Value = Struct.new(:codes)
-  Index = Struct.new(:pages)
+  APP_NAME = 'Language Comparision'
+
+  Index = Struct.new(:pages) {
+    def title; APP_NAME; end
+  }
+
+  Value = Struct.new(:codes, :page_name) {
+    def title; [page_name, APP_NAME].join(' - '); end
+  }
 
   def initialize(dir)
     @root = dir
@@ -45,9 +52,13 @@ class Builder
     )
   end
 
+  def to_word(snake_case)
+    snake_case.split(/_|-/).map(&:capitalize).join(' ')
+  end
+
   def render(dst_path, value)
     File.open dst_path, 'w' do |f|
-      output = layout_engine.render do
+      output = layout_engine.render value do
         page_engine.render value
       end
       f.write output
@@ -72,14 +83,14 @@ class Builder
       end
       codes[name] = ary unless ary.empty?
     end
-    dir_name = dir_path.sub(src_dir, '')
+    dir_name = dir_path.sub(src_dir + '/', '')
     dist_path = File.join(html_dir, dir_name + '.html')
-    render dist_path, Value.new(codes)
+    render dist_path, Value.new(codes, to_word(dir_name))
   end
 
   def render_index(dst_path, value)
     File.open dst_path, 'w' do |f|
-      output = layout_engine.render do
+      output = layout_engine.render value do
         index_engine.render value
       end
       f.write output
