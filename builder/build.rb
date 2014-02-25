@@ -1,31 +1,18 @@
 require 'rubygems'
+require 'yaml'
 require 'bundler/setup'
 require 'slim'
 
 class Builder
-  EXT = {
-    'Ruby' => {
-      ext:  '.rb',
-      exec: 'ruby "%s"'
-    },
-    'Python' => {
-      ext: '.py',
-      exec: 'python "%s"'
-    },
-    'Perl' => {
-      ext: '.{pl,pm}',
-      exec: 'perl "%s"'
-    },
-    'PHP' => {
-      ext: '.php',
-      exec: 'php "%s"'
-    }
-  }
   Value = Struct.new(:codes)
   Index = Struct.new(:pages)
 
   def initialize(dir)
     @root = dir
+  end
+
+  def config
+    @_config ||= YAML.load(File.read(File.join(@root, 'builder', 'config.yml')))
   end
 
   def src_dir
@@ -69,11 +56,14 @@ class Builder
 
   def generate(dir_path)
     codes = {}
-    EXT.each do |name, opt|
+    config.fetch('languages').each do |name, opt|
+      exec = opt.fetch 'exec'
+      ext = opt.fetch 'ext'
+      file_pattern = '*' + (Array === ext ? "{#{ext.join(',')}}" : ext)
       ary = []
-      Dir[File.join dir_path, '*' + opt.fetch(:ext)].each do |file|
+      Dir[File.join dir_path, file_pattern].each do |file|
         src = File.read(file)
-        out = `#{opt.fetch(:exec) % file}`
+        out = `#{exec % file}`
         if $? != 0
           puts out
           exit $?

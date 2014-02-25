@@ -1,0 +1,16 @@
+languages:
+  Ruby:
+    ext: '.rb'
+    exec: 'ruby %s'
+  Python:
+    ext: '.py'
+    exec: 'python %s'
+  Perl:
+    ext:
+      - '.pl'
+      - '.pm'
+    exec: 'perl %s'
+  PHP:
+    ext: '.php'
+    exec: 'php %s'
+
