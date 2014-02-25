@@ -1,5 +1,7 @@
+use feature say;
+
 sub print_array {
-  print "[".join(', ', @_)."]\n"
+  say '[' . join(', ', @_) . ']'
 }
 
 1

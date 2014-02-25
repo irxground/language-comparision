@@ -1,4 +1,4 @@
 <?php
 function print_array($arg) {
-  print "[".implode(', ', $arg)."]\n";
+  echo "[".implode(', ', $arg)."]\n";
 }
