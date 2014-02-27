@@ -1,0 +1,42 @@
+<!DOCTYPE html><head><link href="style.css" rel="stylesheet" /><title>Char Code - Language Comparision</title></head><body><div id="main"><h1><a href="index.html">Language Comparision</a></h1><h2>Ruby</h2><pre class="input"><code>word = &#39;hello&#39;
+word.each_char do |c|
+  puts &#39;%s(%i)&#39; % [c, c.ord]
+end
+</code></pre><pre class="output">h(104)
+e(101)
+l(108)
+l(108)
+o(111)
+</pre><h2>Python</h2><pre class="input"><code>word = &#39;hello&#39;
+for s in word:
+  print &#39;%s(%i)&#39; % (s, ord(s))
+</code></pre><pre class="output">h(104)
+e(101)
+l(108)
+l(108)
+o(111)
+</pre><h2>Perl</h2><pre class="input"><code>use feature say;
+
+$word = &#39;hello&#39;;
+say $_.&#39;(&#39;.ord($_).&#39;)&#39; for (split //, $word);
+</code></pre><pre class="output">h(104)
+e(101)
+l(108)
+l(108)
+o(111)
+</pre><h2>PHP</h2><pre class="input"><code>&lt;?php
+$word = &#39;hello&#39;;
+foreach (str_split($word) as $c) {
+  echo $c.&#39;(&#39;.ord($c).&quot;)\n&quot;;
+}
+</code></pre><pre class="output">h(104)
+e(101)
+l(108)
+l(108)
+o(111)
+</pre></div><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-48466633-1', 'irxground.github.io');
+ga('send', 'pageview');</script></body>
